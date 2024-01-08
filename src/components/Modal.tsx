@@ -52,7 +52,7 @@ function Button() {
   const { openModal, isOpenModal } = useModalContext();
   return (
     <button
-      className="h-12 w-max rounded-md bg-blue-300"
+      className="w-max rounded-md bg-gray-200 p-2"
       type="button"
       onClick={openModal}
     >
@@ -67,8 +67,8 @@ function Window({ title, content }: WindowPropsType) {
   const { closeModal } = useModalContext();
   return isOpenModal
     ? createPortal(
-        <section className="fixed left-0 top-0 flex h-screen w-full items-center justify-center  bg-white/80">
-          <div className="relative flex flex-col gap-8 rounded-xl border border-gray-500 p-20 blur-none">
+        <section className="fixed left-0 top-0 z-[9999] flex h-screen w-full items-center justify-center  bg-white/80 dark:bg-black/80">
+          <div className="relative flex flex-col gap-8 rounded-xl border border-gray-500 bg-white p-20 blur-none">
             <button
               type="button"
               className=" absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-green-400"

@@ -1,10 +1,8 @@
-import axios from "axios";
-import { useEffect } from "react";
 import AppLayout from "./layout/AppLayout";
 
 import "./App.css";
-import Sidebar from "./components/Sidebar";
-import MapContainer from "./components/MapContainer";
+import SearchList from "./components/SearchList";
+import Map from "./components/Map";
 import ListContanier from "./components/ListContanier";
 import Header from "./components/Header";
 import { useAppSelector } from "./hooks/hooks";
@@ -13,15 +11,6 @@ function App() {
   const isOpenMap = useAppSelector((state) => state.pagecontrol.isOpenMap);
   const noShow = "invisible opacity-0 hidden";
   const show = "visible opacity-100";
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const Response = await axios.get("/api/cafes");
-  //     console.log(Response);
-  //     const { data: coffeeData } = Response;
-  //     console.log(coffeeData);
-  //   }
-  //   fetchData();
-  // }, []);
 
   return (
     <div>
@@ -29,9 +18,13 @@ function App() {
         <div className="col-span-2">
           <Header />
         </div>
-        <Sidebar />
-        <div className={` transition-all ${isOpenMap ? show : noShow}`}>
-          <MapContainer />
+        <SearchList />
+        <div
+          className={` overflow-hidden transition-all ${
+            isOpenMap ? show : noShow
+          } `}
+        >
+          <Map />
         </div>
         <div className={`transition-all ${isOpenMap ? noShow : show}`}>
           <ListContanier />

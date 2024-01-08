@@ -1,13 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
 import coffeeSlice from "./coffeeSlice";
 import pagecontrolSlice from "./pagecontrolSlice";
+import { coffeeApi } from "./apis/apiSlice";
 
 const store = configureStore({
   reducer: {
     pagecontrol: pagecontrolSlice,
     coffee: coffeeSlice,
+    [coffeeApi.reducerPath]: coffeeApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(coffeeApi.middleware),
 });
+
+setupListeners(store.dispatch);
 
 export default store;
 

@@ -6,7 +6,7 @@ interface PagecontrolType {
 }
 
 const initialState: PagecontrolType = {
-  isOpenMap: false,
+  isOpenMap: true,
   isDarkMode: false,
 };
 
@@ -35,6 +35,7 @@ export const pagecontrolSlice = createSlice({
   },
 });
 
-export const { toggleIsOpenMap, toggleIsDarkMode, darkModeInit } = pagecontrolSlice.actions;
+export const { toggleIsOpenMap, toggleIsDarkMode, darkModeInit } =
+  pagecontrolSlice.actions;
 
 export default pagecontrolSlice.reducer;
