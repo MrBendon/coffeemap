@@ -24,11 +24,15 @@ export interface CoffeeDataType {
 interface InitialStateType {
   activeCoffeeShop: CoffeeDataType | undefined;
   coffeeData: CoffeeDataType[] | undefined;
+  searchCoffeeShopResult: CoffeeDataType[] | undefined;
+  searchKey: string | null;
 }
 
 const initialState: InitialStateType = {
   activeCoffeeShop: undefined,
   coffeeData: undefined,
+  searchCoffeeShopResult: undefined,
+  searchKey: null,
 };
 
 export const CoffeeSlice = createSlice({
@@ -39,13 +43,26 @@ export const CoffeeSlice = createSlice({
       ...state,
       ...action.payload,
     }),
+    setSearchKey: (state, action) => ({
+      ...state,
+      searchKey: action.payload,
+    }),
     setActiveCoffeeShop: (state, action) => ({
       ...state,
       activeCoffeeShop: action.payload,
     }),
+    setSearchCoffeeShopResult: (state, action) => ({
+      ...state,
+      searchCoffeeShopResult: action.payload,
+    }),
   },
 });
 
-export const { initCoffeeStore, setActiveCoffeeShop } = CoffeeSlice.actions;
+export const {
+  initCoffeeStore,
+  setActiveCoffeeShop,
+  setSearchCoffeeShopResult,
+  setSearchKey,
+} = CoffeeSlice.actions;
 
 export default CoffeeSlice.reducer;

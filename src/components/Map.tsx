@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { MapContainer, TileLayer, useMap, useMapEvent } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { MutableRefObject, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { LeafletMouseEvent } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import MapMarker from "./UI/MapMarker";
@@ -31,16 +31,20 @@ function SetViewToTargetCoffeeShop({ setActiveCoffeeShopId }: PropsType) {
   const activeCoffeeShop = useAppSelector(
     (state) => state.coffee.activeCoffeeShop,
   );
-  if (
-    !activeCoffeeShop?.id ||
-    !activeCoffeeShop?.latitude ||
-    !activeCoffeeShop?.longitude
-  )
-    return;
-  const latitude = Number(activeCoffeeShop.latitude);
-  const longitude = Number(activeCoffeeShop.longitude);
-  map.setView([latitude, longitude], 17);
-  setActiveCoffeeShopId(activeCoffeeShop.id);
+
+  useEffect(() => {
+    if (
+      activeCoffeeShop?.id &&
+      activeCoffeeShop?.latitude &&
+      activeCoffeeShop?.longitude
+    ) {
+      const latitude = Number(activeCoffeeShop.latitude);
+      const longitude = Number(activeCoffeeShop.longitude);
+      map.setView([latitude, longitude], 17);
+      setActiveCoffeeShopId(activeCoffeeShop.id);
+    }
+  }, [activeCoffeeShop, setActiveCoffeeShopId, map]);
+
   // eslint-disable-next-line consistent-return
   return null;
 }

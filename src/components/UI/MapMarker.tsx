@@ -16,6 +16,7 @@ function MapMarker({ activeCoffeeShopId, coffeeShop }: PropsType) {
 
   useEffect(() => {
     if (isActive && markerRef.current) {
+      console.log(markerRef.current);
       markerRef.current.openPopup();
     }
   }, [isActive]);

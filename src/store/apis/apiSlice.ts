@@ -5,7 +5,7 @@ export const coffeeApi = createApi({
   reducerPath: "coffeeApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api/cafes" }),
   endpoints: (builder) => ({
-    getAllCoffee: builder.query<CoffeeDataType[], string>({
+    getAllCoffee: builder.query<CoffeeDataType[], void>({
       query: () => "",
     }),
   }),
