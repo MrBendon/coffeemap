@@ -26,6 +26,8 @@ interface InitialStateType {
   coffeeData: CoffeeDataType[] | undefined;
   searchCoffeeShopResult: CoffeeDataType[] | undefined;
   searchKey: string | null;
+  isSearchMode: boolean | "init";
+  activeFilters: string[];
 }
 
 const initialState: InitialStateType = {
@@ -33,6 +35,8 @@ const initialState: InitialStateType = {
   coffeeData: undefined,
   searchCoffeeShopResult: undefined,
   searchKey: null,
+  isSearchMode: "init",
+  activeFilters: [],
 };
 
 export const CoffeeSlice = createSlice({
@@ -43,9 +47,32 @@ export const CoffeeSlice = createSlice({
       ...state,
       ...action.payload,
     }),
+    setFilters: (state, action) => {
+      const isExist = state.activeFilters.find(
+        (filter) => filter === action.payload,
+      );
+      let newActiveFilters: string[];
+      if (isExist) {
+        newActiveFilters = state.activeFilters.filter(
+          (filter) => filter !== action.payload,
+        );
+        state.activeFilters = newActiveFilters;
+      } else {
+        state.activeFilters = [...state.activeFilters, action.payload];
+      }
+    },
+    resetFilters: (state) => ({
+      ...state,
+      activeFilters: [],
+    }),
+    setSearchMode: (state, action) => ({
+      ...state,
+      isSearchMode: action.payload,
+    }),
     setSearchKey: (state, action) => ({
       ...state,
       searchKey: action.payload,
+      isSearchMode: action.payload === "" ? "init" : true,
     }),
     setActiveCoffeeShop: (state, action) => ({
       ...state,
@@ -63,6 +90,9 @@ export const {
   setActiveCoffeeShop,
   setSearchCoffeeShopResult,
   setSearchKey,
+  setSearchMode,
+  setFilters,
+  resetFilters,
 } = CoffeeSlice.actions;
 
 export default CoffeeSlice.reducer;

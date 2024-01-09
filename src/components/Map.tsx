@@ -7,18 +7,22 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import MapMarker from "./UI/MapMarker";
 import { useGetAllCoffeeQuery } from "../store/apis/apiSlice";
 import LoadingPage from "./UI/LoadingPage";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { setSearchMode } from "../store/coffeeSlice";
 
 interface SetViewPropsType {
   animateRef: MutableRefObject<boolean>;
 }
 
 function SetViewOnClick({ animateRef }: SetViewPropsType) {
+  const dispatch = useAppDispatch();
   const map = useMapEvent("click", (e: LeafletMouseEvent) => {
     map.setView(e.latlng, map.getZoom(), {
       animate: animateRef.current || false,
     });
+    dispatch(setSearchMode(false));
   });
+
   return null;
 }
 

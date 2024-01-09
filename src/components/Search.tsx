@@ -19,7 +19,7 @@ function Search() {
   }
 
   return (
-    <form className="relative flex gap-4" onSubmit={(e) => handleOnSubmit(e)}>
+    <form className="relative flex gap-4 " onSubmit={(e) => handleOnSubmit(e)}>
       <input
         className="peer h-8 w-80 rounded-3xl bg-gray-200 px-4  py-4  outline transition-all focus:bg-white focus:outline-blue-700 dark:bg-gray-800 dark:text-gray-300 dark:focus:bg-gray-900 dark:focus:text-gray-200 dark:focus:outline-[#0BD9CE]"
         type="text"
