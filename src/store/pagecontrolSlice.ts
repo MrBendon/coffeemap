@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 interface PagecontrolType {
   isOpenMap: boolean;
   isDarkMode: boolean;
+  isOpenFiltersBlock: boolean;
 }
 
 const initialState: PagecontrolType = {
   isOpenMap: true,
   isDarkMode: false,
+  isOpenFiltersBlock: false,
 };
 
 export const pagecontrolSlice = createSlice({
@@ -32,10 +34,17 @@ export const pagecontrolSlice = createSlice({
         document.documentElement.classList.remove("dark");
       }
     },
+    toggleIsOpenFiltersBlock: (state) => {
+      state.isOpenFiltersBlock = !state.isOpenFiltersBlock;
+    },
   },
 });
 
-export const { toggleIsOpenMap, toggleIsDarkMode, darkModeInit } =
-  pagecontrolSlice.actions;
+export const {
+  toggleIsOpenMap,
+  toggleIsDarkMode,
+  darkModeInit,
+  toggleIsOpenFiltersBlock,
+} = pagecontrolSlice.actions;
 
 export default pagecontrolSlice.reducer;

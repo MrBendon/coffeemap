@@ -4,6 +4,7 @@ import { CgWebsite } from "react-icons/cg";
 import { CoffeeDataType, setActiveCoffeeShop } from "../../store/coffeeSlice";
 import FeatureInfo from "./FeatureInfo";
 import { useAppDispatch } from "../../hooks/hooks";
+import Badge from "./Badge";
 
 interface PropsType {
   coffeeShop: CoffeeDataType;
@@ -52,14 +53,10 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
         </h3>
       </div>
       <div className="flex w-full flex-wrap gap-4 text-sm">
-        {hasWifi && <p className="dark:bg-primary  rounded-md px-2">有Wifi</p>}
-        {provideSocket && (
-          <p className="dark:bg-primary rounded-md px-2">有插座</p>
-        )}
-        {limitTime && <p className="dark:bg-primary rounded-md px-2">無限時</p>}
-        {provideStandingDesk && (
-          <p className="dark:bg-primary rounded-md px-2">有站位</p>
-        )}
+        {hasWifi && <Badge badgeText="有Wifi" />}
+        {provideSocket && <Badge badgeText="有插座" />}
+        {limitTime && <Badge badgeText="無限時" />}
+        {provideStandingDesk && <Badge badgeText="有站位" />}
       </div>
       <div className="flex items-center justify-start gap-2">
         <IoLocation />
@@ -76,7 +73,11 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
       <div className=" flex items-center justify-start gap-2">
         <CgWebsite />
         <a
-          className={`${url ? "text-black" : "text-gray-300"}`}
+          className={`${
+            url
+              ? "text-black underline underline-offset-4 dark:text-white"
+              : "text-gray-300"
+          } `}
           href={url}
           target="_blank"
           rel="noreferrer"
