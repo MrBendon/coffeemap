@@ -14,6 +14,7 @@ import {
   setSearchMode,
   setUserPostion,
 } from "../store/coffeeSlice";
+import filterData from "../helper/filterData";
 
 interface SetViewPropsType {
   animateRef: MutableRefObject<boolean>;
@@ -104,6 +105,31 @@ function SetViewportBounds({ coffeeData }: SetViewportBoundsPropsType) {
 
   return null;
 }
+interface RenderMarkPropsType {
+  coffeeData: CoffeeDataType[] | undefined;
+  activeCoffeeShopId: string;
+}
+
+function RenderMarker({ coffeeData, activeCoffeeShopId }: RenderMarkPropsType) {
+  const activeFilter = useAppSelector((state) => state.coffee.activeFilters);
+  let coffeeDataAfterFilter = coffeeData;
+
+  if (activeFilter.length > 0 && coffeeData) {
+    coffeeDataAfterFilter = filterData(coffeeData, activeFilter);
+  }
+
+  return (
+    <MarkerClusterGroup chunkedLoading>
+      {coffeeDataAfterFilter?.map((coffeeShop) => (
+        <MapMarker
+          activeCoffeeShopId={activeCoffeeShopId}
+          coffeeShop={coffeeShop}
+          key={coffeeShop.id}
+        />
+      ))}
+    </MarkerClusterGroup>
+  );
+}
 
 function Map() {
   const { data: coffeeData, isLoading } = useGetAllCoffeeQuery();
@@ -123,16 +149,10 @@ function Map() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <InitUserLocation />
-        <MarkerClusterGroup chunkedLoading>
-          {coffeeData?.map((coffeeShop) => (
-            <MapMarker
-              activeCoffeeShopId={activeCoffeeShopId}
-              coffeeShop={coffeeShop}
-              key={coffeeShop.id}
-            />
-          ))}
-        </MarkerClusterGroup>
-
+        <RenderMarker
+          coffeeData={coffeeData}
+          activeCoffeeShopId={activeCoffeeShopId}
+        />
         <SetViewportBounds coffeeData={coffeeData} />
         <SetViewOnClick animateRef={animateRef} />
         <SetViewToTargetCoffeeShop

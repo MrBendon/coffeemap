@@ -35,7 +35,7 @@ function MapMarker({ activeCoffeeShopId, coffeeShop }: PropsType) {
       ref={isActive ? markerRef : null}
     >
       <Popup>
-        <div className="w-max">
+        <div className="flex w-max flex-col gap-0">
           <p className="text-xl font-bold underline underline-offset-2 ">
             {coffeeShop.name}
           </p>

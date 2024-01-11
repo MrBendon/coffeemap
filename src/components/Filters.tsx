@@ -26,7 +26,7 @@ function Filters() {
 
         <button
           type="button"
-          className="col-span-2 h-8 cursor-pointer rounded-full border border-gray-500 transition-all hover:bg-slate-400 hover:text-white dark:text-white dark:hover:bg-gray-800"
+          className="col-span-2 h-8 cursor-pointer rounded-full border border-gray-500 transition-all hover:bg-slate-400 hover:text-white dark:text-white dark:hover:bg-gray-600"
           onClick={handleOnClickResetFilters}
         >
           清除篩選器
