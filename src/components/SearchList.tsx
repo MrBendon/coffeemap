@@ -8,18 +8,22 @@ import filterData from "../helper/filterData";
 import InitSearchListBlock from "./UI/InitSearchListBlock";
 import SearchNoResult from "./UI/SearchNoResult";
 import SearchResultLength from "./UI/SearchResultLength";
+import InViewportCoffeeShopList from "./UI/InViewportCoffeeShopList";
 
 function SearchList() {
+  console.log("list-re-render");
   const { data: allCoffeeData } = useGetAllCoffeeQuery();
-  const searchKey = useAppSelector((state) => state.coffee.searchKey);
-  const isOpenFilters = useAppSelector(
-    (state) => state.pagecontrol.isOpenFiltersBlock,
-  );
-  const isSearchMode = useAppSelector((state) => state.coffee.isSearchMode);
-  console.log("isSearchMode:", isSearchMode);
-  const filters = useAppSelector((state) => state.coffee.activeFilters);
+  const {
+    searchKey,
+    inViewportCoffeeShopData,
+    isSearchMode,
+    activeFilters: filters,
+  } = useAppSelector((state) => state.coffee);
+  const { isOpenFiltersBlock: isOpenFilters, listMaxDisplayQuantity } =
+    useAppSelector((state) => state.pagecontrol);
 
   let searchResults: CoffeeDataType[] | undefined;
+
   if (searchKey) {
     searchResults = allCoffeeData?.filter(
       (coffee) =>
@@ -38,7 +42,11 @@ function SearchList() {
     memoResults.length > 0;
   const searchEmpty = isSearchMode === true && memoResults?.length === 0;
   const isInit = isSearchMode === "init";
-
+  const inViewportDataList =
+    inViewportCoffeeShopData &&
+    inViewportCoffeeShopData.length > listMaxDisplayQuantity
+      ? inViewportCoffeeShopData?.slice(0, listMaxDisplayQuantity)
+      : inViewportCoffeeShopData;
   return (
     <div className="flex h-full w-full flex-col justify-start gap-4 overflow-y-auto p-2 ">
       <div
@@ -55,7 +63,12 @@ function SearchList() {
           ))}
 
         {searchEmpty && <SearchNoResult />}
-        {!isSearchMode && "顯示地圖附近的咖啡廳"}
+        {!isSearchMode && (
+          <InViewportCoffeeShopList
+            inViewportDataList={inViewportDataList}
+            inViewportCoffeeShopData={inViewportCoffeeShopData}
+          />
+        )}
       </div>
     </div>
   );

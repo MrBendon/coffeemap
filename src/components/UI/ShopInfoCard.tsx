@@ -1,6 +1,7 @@
 import { IoLocation } from "react-icons/io5";
 import { MdAccessTime } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
+import { IoIosStar } from "react-icons/io";
 import { CoffeeDataType, setActiveCoffeeShop } from "../../store/coffeeSlice";
 import FeatureInfo from "./FeatureInfo";
 import { useAppDispatch } from "../../hooks/hooks";
@@ -9,6 +10,15 @@ import Badge from "./Badge";
 interface PropsType {
   coffeeShop: CoffeeDataType;
 }
+
+const calcItems: string[] = [
+  "wifi",
+  "seat",
+  "quiet",
+  "tasty",
+  "cheap",
+  "music",
+];
 
 function ShopInfoCard({ coffeeShop }: PropsType) {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -28,9 +38,15 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
     address,
   } = coffeeShop;
   const dispatch = useAppDispatch();
-
+  const calcItemsScore: number[] = calcItems.map(
+    (item) => Number(coffeeShop[item]) || 0,
+  );
+  const totalStar = (
+    calcItemsScore.reduce((acc: number, cur: number) => acc + cur, 0) /
+    calcItemsScore.length
+  ).toFixed(1);
   function handleOnClickCoffeeShopCard() {
-    dispatch(setActiveCoffeeShop({}));
+    // dispatch(setActiveCoffeeShop({}));
     dispatch(setActiveCoffeeShop(coffeeShop));
   }
 
@@ -47,10 +63,14 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
       role="button"
       tabIndex={0}
     >
-      <div className="flex w-full items-center justify-start  gap-2">
+      <div className="flex w-full items-center justify-between gap-2">
         <h3 className="text-xl font-bold underline underline-offset-2">
           {name}
         </h3>
+        <div className="flex items-center justify-center gap-1 text-orange-500">
+          {totalStar}
+          <IoIosStar />
+        </div>
       </div>
       <div className="flex w-full flex-wrap gap-4 text-sm">
         {hasWifi && <Badge badgeText="有Wifi" />}

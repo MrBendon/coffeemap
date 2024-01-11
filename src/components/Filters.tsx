@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { resetFilters } from "../store/coffeeSlice";
 import SorterCheckbox from "./UI/SorterCheckbox";
@@ -6,10 +5,9 @@ import { toggleIsOpenFiltersBlock } from "../store/pagecontrolSlice";
 
 function Filters() {
   const dispatch = useAppDispatch();
-  const isOpenFilters = useAppSelector(
+  const isOpenFiltersBlock = useAppSelector(
     (state) => state.pagecontrol.isOpenFiltersBlock,
   );
-
   function handleOnClickResetFilters() {
     dispatch(resetFilters());
   }
@@ -18,7 +16,7 @@ function Filters() {
   }
   return (
     <div className="group mb-8">
-      <div className=" relative grid grid-cols-2 items-center justify-center gap-2 rounded-lg bg-gray-200 p-4 peer-hover:bg-gray-400 dark:bg-gray-900">
+      <div className=" relative grid grid-cols-2 items-center justify-center gap-2 rounded-lg bg-gray-200 p-4 peer-hover:bg-gray-400 dark:bg-gray-800">
         <SorterCheckbox name="socket" labelText="有插座" />
         <SorterCheckbox name="wifi" labelText="有wifi" />
         <SorterCheckbox name="limited_time" labelText="無限時" />
@@ -33,10 +31,10 @@ function Filters() {
         </button>
         <button
           type="button"
-          className=" absolute left-4 top-full w-max cursor-pointer rounded-b-xl bg-gray-200 p-2  transition-all dark:bg-gray-900"
+          className=" absolute left-4 top-full w-max cursor-pointer rounded-b-xl bg-gray-200 p-2  transition-all hover:text-blue-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:text-blue-300"
           onClick={handleOnClick}
         >
-          開啟篩選器
+          {isOpenFiltersBlock ? "闔上篩選器" : "開啟篩選器"}
         </button>
       </div>
     </div>

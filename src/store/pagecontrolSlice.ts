@@ -4,12 +4,14 @@ interface PagecontrolType {
   isOpenMap: boolean;
   isDarkMode: boolean;
   isOpenFiltersBlock: boolean;
+  listMaxDisplayQuantity: number;
 }
 
 const initialState: PagecontrolType = {
   isOpenMap: true,
   isDarkMode: false,
   isOpenFiltersBlock: false,
+  listMaxDisplayQuantity: 20,
 };
 
 export const pagecontrolSlice = createSlice({

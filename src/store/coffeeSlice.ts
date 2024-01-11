@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface CoffeeDataType {
+  [key: string]: number | string | undefined;
   address: string | undefined;
   cheap: number | undefined;
   city: string | undefined;
@@ -28,6 +29,7 @@ interface InitialStateType {
   searchKey: string | null;
   isSearchMode: boolean | "init";
   activeFilters: string[];
+  inViewportCoffeeShopData: CoffeeDataType[] | undefined;
 }
 
 const initialState: InitialStateType = {
@@ -37,16 +39,21 @@ const initialState: InitialStateType = {
   searchKey: null,
   isSearchMode: "init",
   activeFilters: [],
+  inViewportCoffeeShopData: undefined,
 };
 
 export const CoffeeSlice = createSlice({
   name: "CoffeeSlice",
   initialState,
   reducers: {
-    initCoffeeStore: (state, action) => ({
-      ...state,
-      ...action.payload,
-    }),
+    initCoffeeStore: (state, action) => ({ ...state, ...action.payload }),
+    setInViewportCoffeeShopData: (state, action) => {
+      console.log("setInViewportData");
+      return {
+        ...state,
+        inViewportCoffeeShopData: action.payload,
+      };
+    },
     setFilters: (state, action) => {
       const isExist = state.activeFilters.find(
         (filter) => filter === action.payload,
@@ -74,19 +81,20 @@ export const CoffeeSlice = createSlice({
       searchKey: action.payload,
       isSearchMode: action.payload === "" ? "init" : true,
     }),
-    setActiveCoffeeShop: (state, action) => ({
-      ...state,
-      activeCoffeeShop: action.payload,
-    }),
-    setSearchCoffeeShopResult: (state, action) => ({
-      ...state,
-      searchCoffeeShopResult: action.payload,
-    }),
+    setActiveCoffeeShop: (state, action) => {
+      console.log("set Active Coffee shop");
+      return { ...state, activeCoffeeShop: action.payload };
+    },
+    setSearchCoffeeShopResult: (state, action) => {
+      console.log("searchShopResult");
+      return { ...state, searchCoffeeShopResult: action.payload };
+    },
   },
 });
 
 export const {
   initCoffeeStore,
+  setInViewportCoffeeShopData,
   setActiveCoffeeShop,
   setSearchCoffeeShopResult,
   setSearchKey,
