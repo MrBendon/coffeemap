@@ -11,7 +11,6 @@ import SearchResultLength from "./UI/SearchResultLength";
 import InViewportCoffeeShopList from "./UI/InViewportCoffeeShopList";
 
 function SearchList() {
-  console.log("list-re-render");
   const { data: allCoffeeData } = useGetAllCoffeeQuery();
   const {
     searchKey,
@@ -21,7 +20,7 @@ function SearchList() {
   } = useAppSelector((state) => state.coffee);
   const { isOpenFiltersBlock: isOpenFilters, listMaxDisplayQuantity } =
     useAppSelector((state) => state.pagecontrol);
-
+  // 字串搜索模式
   let searchResults: CoffeeDataType[] | undefined;
 
   if (searchKey) {
@@ -42,11 +41,21 @@ function SearchList() {
     memoResults.length > 0;
   const searchEmpty = isSearchMode === true && memoResults?.length === 0;
   const isInit = isSearchMode === "init";
-  const inViewportDataList =
-    inViewportCoffeeShopData &&
-    inViewportCoffeeShopData.length > listMaxDisplayQuantity
-      ? inViewportCoffeeShopData?.slice(0, listMaxDisplayQuantity)
-      : inViewportCoffeeShopData;
+
+  // 地圖搜索模式
+  let inViewPortDataAfterFilter: CoffeeDataType[] | undefined =
+    inViewportCoffeeShopData;
+
+  if (filters.length > 0 && inViewPortDataAfterFilter) {
+    inViewPortDataAfterFilter = filterData(inViewPortDataAfterFilter, filters);
+  }
+
+  const showCardList =
+    inViewPortDataAfterFilter &&
+    inViewPortDataAfterFilter.length > listMaxDisplayQuantity
+      ? inViewPortDataAfterFilter?.slice(0, listMaxDisplayQuantity)
+      : inViewPortDataAfterFilter;
+
   return (
     <div className="flex h-full w-full flex-col justify-start gap-4 overflow-y-auto p-2 ">
       <div
@@ -56,6 +65,7 @@ function SearchList() {
       >
         <Filters />
         {isInit && <InitSearchListBlock />}
+        {/* 字串搜索模式 */}
         {hasData && <SearchResultLength searchResults={memoResults} />}
         {hasData &&
           memoResults?.map((coffeeShop) => (
@@ -63,10 +73,11 @@ function SearchList() {
           ))}
 
         {searchEmpty && <SearchNoResult />}
+        {/* 地圖搜索模式 */}
         {!isSearchMode && (
           <InViewportCoffeeShopList
-            inViewportDataList={inViewportDataList}
-            inViewportCoffeeShopData={inViewportCoffeeShopData}
+            showCardList={showCardList}
+            inViewPortDataAfterFilter={inViewPortDataAfterFilter}
           />
         )}
       </div>

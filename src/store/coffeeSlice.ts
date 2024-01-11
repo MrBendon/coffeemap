@@ -30,6 +30,7 @@ interface InitialStateType {
   isSearchMode: boolean | "init";
   activeFilters: string[];
   inViewportCoffeeShopData: CoffeeDataType[] | undefined;
+  userLocation: { [key: string]: number };
 }
 
 const initialState: InitialStateType = {
@@ -40,6 +41,7 @@ const initialState: InitialStateType = {
   isSearchMode: "init",
   activeFilters: [],
   inViewportCoffeeShopData: undefined,
+  userLocation: {},
 };
 
 export const CoffeeSlice = createSlice({
@@ -47,13 +49,14 @@ export const CoffeeSlice = createSlice({
   initialState,
   reducers: {
     initCoffeeStore: (state, action) => ({ ...state, ...action.payload }),
-    setInViewportCoffeeShopData: (state, action) => {
-      console.log("setInViewportData");
-      return {
-        ...state,
-        inViewportCoffeeShopData: action.payload,
-      };
-    },
+    setUserPostion: (state, action) => ({
+      ...state,
+      userLocation: action.payload,
+    }),
+    setInViewportCoffeeShopData: (state, action) => ({
+      ...state,
+      inViewportCoffeeShopData: action.payload,
+    }),
     setFilters: (state, action) => {
       const isExist = state.activeFilters.find(
         (filter) => filter === action.payload,
@@ -81,19 +84,20 @@ export const CoffeeSlice = createSlice({
       searchKey: action.payload,
       isSearchMode: action.payload === "" ? "init" : true,
     }),
-    setActiveCoffeeShop: (state, action) => {
-      console.log("set Active Coffee shop");
-      return { ...state, activeCoffeeShop: action.payload };
-    },
-    setSearchCoffeeShopResult: (state, action) => {
-      console.log("searchShopResult");
-      return { ...state, searchCoffeeShopResult: action.payload };
-    },
+    setActiveCoffeeShop: (state, action) => ({
+      ...state,
+      activeCoffeeShop: action.payload,
+    }),
+    setSearchCoffeeShopResult: (state, action) => ({
+      ...state,
+      searchCoffeeShopResult: action.payload,
+    }),
   },
 });
 
 export const {
   initCoffeeStore,
+  setUserPostion,
   setInViewportCoffeeShopData,
   setActiveCoffeeShop,
   setSearchCoffeeShopResult,

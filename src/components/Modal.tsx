@@ -1,9 +1,11 @@
 import { ReactNode, createContext, useContext, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { MdOutlineInfo } from "react-icons/md";
 
 interface WindowPropsType {
   title: string;
-  content: string;
+  subTitle: string;
+  children?: ReactNode;
 }
 
 interface ModalContextType {
@@ -49,26 +51,27 @@ function Modal({ children }: ModalPropsType) {
 }
 
 function Button() {
-  const { openModal, isOpenModal } = useModalContext();
+  const { openModal } = useModalContext();
   return (
     <button
-      className="w-max rounded-md bg-gray-200 p-2"
+      className="mx-4 w-max rounded-md p-2 text-3xl"
       type="button"
       onClick={openModal}
     >
-      {isOpenModal ? "Close" : "Open"}
+      <MdOutlineInfo />
+      {}
     </button>
   );
 }
 
-function Window({ title, content }: WindowPropsType) {
+function Window({ title, subTitle, children }: WindowPropsType) {
   const portalTargetDom = document.body;
   const { isOpenModal } = useModalContext();
   const { closeModal } = useModalContext();
   return isOpenModal
     ? createPortal(
-        <section className="fixed left-0 top-0 z-[9999] flex h-screen w-full items-center justify-center  bg-white/80 dark:bg-black/80">
-          <div className="relative flex flex-col gap-8 rounded-xl border border-gray-500 bg-white p-20 blur-none">
+        <section className="fixed left-0 top-0 z-[9999] flex h-screen w-full items-center justify-center bg-white/80 dark:bg-black/80">
+          <div className="relative flex w-max max-w-80 flex-col rounded-xl  border border-gray-500 bg-gray-100 px-10 py-10 blur-none md:max-w-[40rem] dark:bg-gray-800 dark:text-white">
             <button
               type="button"
               className=" absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-green-400"
@@ -76,8 +79,14 @@ function Window({ title, content }: WindowPropsType) {
             >
               X
             </button>
-            <p className="text-3xl font-bold">{title}</p>
-            <p>{content}</p>
+            <div className=" absolute left-0 top-[21%] w-full border-b border-gray-400" />
+            <p className="z-10 mx-auto w-max bg-gray-100 px-8 pb-4 text-3xl font-bold dark:bg-gray-800">
+              {title}
+            </p>
+            <p className="flex flex-wrap pb-6 text-xl font-medium  italic text-gray-500 dark:text-gray-300">
+              {subTitle}
+            </p>
+            {children}
           </div>
         </section>,
         portalTargetDom,
@@ -90,3 +99,7 @@ Modal.Button = Button;
 Modal.Window = Window;
 
 export default Modal;
+
+Window.defaultProps = {
+  children: <p>Default Children</p>,
+};

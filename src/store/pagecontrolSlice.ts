@@ -11,7 +11,7 @@ const initialState: PagecontrolType = {
   isOpenMap: true,
   isDarkMode: false,
   isOpenFiltersBlock: false,
-  listMaxDisplayQuantity: 20,
+  listMaxDisplayQuantity: 30,
 };
 
 export const pagecontrolSlice = createSlice({

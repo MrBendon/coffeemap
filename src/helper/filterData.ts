@@ -1,10 +1,5 @@
 import { CoffeeDataType } from "../store/coffeeSlice";
 
-// interface PropsType {
-//   dataset: CoffeeDataType[];
-//   customizedFilters: string[];
-// }
-
 type DatasetType = CoffeeDataType[];
 type CustomizedFilters = string[];
 
@@ -25,9 +20,6 @@ function filterData(
 ): CoffeeDataType[] {
   const AfterFilterData = dataset.filter((coffeeShop) => {
     const result = customizedFilters.every((filterName) => {
-      //   console.log(filterName);
-      //   const [keyword, condition] = filter.split(":");
-      //   console.log(keyword, condition);
       const dataValue = coffeeShop[filterName as keyof CoffeeDataType];
       if (dataValue === undefined) return false;
       return checkConditions[filterName](dataValue);

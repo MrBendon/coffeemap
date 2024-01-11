@@ -12,6 +12,7 @@ import {
   CoffeeDataType,
   setInViewportCoffeeShopData,
   setSearchMode,
+  setUserPostion,
 } from "../store/coffeeSlice";
 
 interface SetViewPropsType {
@@ -26,9 +27,23 @@ interface SetViewportBoundsPropsType {
   coffeeData: CoffeeDataType[] | undefined;
 }
 
+function InitUserLocation() {
+  // const [userPosition, setUserPosition] = useState<unknown>(null);
+  const map = useMap();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    map.locate({ setView: true });
+    map.on("locationfound", (e) => {
+      console.log(e.latlng);
+      const usePosition = { lat: e.latlng.lat, lng: e.latlng.lng };
+      dispatch(setUserPostion(usePosition));
+    });
+  }, [map, dispatch]);
+  return null;
+}
+
 function SetViewOnClick({ animateRef }: SetViewPropsType) {
   const dispatch = useAppDispatch();
-  console.log("OnCLICK");
   const isSearchMode = useAppSelector((state) => state.coffee.isSearchMode);
   const map = useMapEvent("click", (e: LeafletMouseEvent) => {
     map.setView(e.latlng, map.getZoom(), {
@@ -45,7 +60,6 @@ function SetViewOnClick({ animateRef }: SetViewPropsType) {
 function SetViewToTargetCoffeeShop({
   setActiveCoffeeShopId,
 }: SetViewToTargetCoffeeShopPropsType) {
-  console.log("move to active shop");
   const map = useMap();
   const activeCoffeeShop = useAppSelector(
     (state) => state.coffee.activeCoffeeShop,
@@ -73,7 +87,6 @@ function SetViewportBounds({ coffeeData }: SetViewportBoundsPropsType) {
   const map = useMap();
   useEffect(() => {
     function updateInViewportData() {
-      console.log("effect");
       const boundary = map.getBounds();
       const inViewportBoundCoffeeData = coffeeData?.filter((coffeeShop) => {
         const lag = Number(coffeeShop.latitude);
@@ -96,16 +109,8 @@ function Map() {
   const { data: coffeeData, isLoading } = useGetAllCoffeeQuery();
   const [activeCoffeeShopId, setActiveCoffeeShopId] = useState("");
   const animateRef = useRef(true);
-  console.log("map re-render");
-  // const boundary = useAppSelector((state) => state.coffee.boundary);
-  // const inViewportData = coffeeData?.filter((coffeeShop) => {
-  //   const lat = Number(coffeeShop.latitude);
-  //   const lng = Number(coffeeShop.longitude);
-  //   return boundary?.contains([lat, lng]);
-  // });
 
   if (isLoading) return <LoadingPage />;
-
   return (
     <div className="h-full w-full bg-blue-300">
       <MapContainer
@@ -117,6 +122,7 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <InitUserLocation />
         <MarkerClusterGroup chunkedLoading>
           {coffeeData?.map((coffeeShop) => (
             <MapMarker

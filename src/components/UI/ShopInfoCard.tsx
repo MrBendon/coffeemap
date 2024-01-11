@@ -57,14 +57,14 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
 
   return (
     <div
-      className="flex w-full flex-col gap-2 rounded-md bg-white p-2 shadow-[10px_10px_20px_0px_rgba(0,0,0,0.5)]  transition-all hover:cursor-pointer hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100"
+      className="flex w-full flex-col gap-4 rounded-md bg-white p-2 shadow-[10px_10px_20px_0px_rgba(0,0,0,0.5)]  transition-all hover:cursor-pointer hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100"
       onClick={() => handleOnClickCoffeeShopCard()}
       onKeyDown={() => handleOnClickCoffeeShopCard()}
       role="button"
       tabIndex={0}
     >
-      <div className="flex w-full items-center justify-between gap-2">
-        <h3 className="text-xl font-bold underline underline-offset-2">
+      <div className="flex w-full items-center justify-between">
+        <h3 className="text-xl font-bold underline underline-offset-4">
           {name}
         </h3>
         <div className="flex items-center justify-center gap-1 text-orange-500">
@@ -92,7 +92,19 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
       </div>
       <div className=" flex items-center justify-start gap-2">
         <CgWebsite />
-        <a
+        {url ? (
+          <a
+            className="text-black underline underline-offset-4 dark:text-white"
+            href={url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            店家網址
+          </a>
+        ) : (
+          <p className="text-gray-400">未提供店家網址</p>
+        )}
+        {/* <a
           className={`${
             url
               ? "text-black underline underline-offset-4 dark:text-white"
@@ -103,7 +115,7 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
           rel="noreferrer"
         >
           {url === "" ? "未提供店家網址" : "店家網址"}
-        </a>
+        </a> */}
       </div>
       <div className="border-b border-gray-400" />
       <div className="flex flex-col gap-2 text-sm xl:grid xl:grid-cols-2 xl:gap-2">

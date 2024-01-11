@@ -15,7 +15,7 @@ function ToggleDarkButton() {
   return (
     <label
       htmlFor="checkobx-input"
-      className="relative flex h-8 w-24 items-center justify-center rounded-full border-2  border-gray-600 bg-white p-[2px] dark:border-gray-400 dark:bg-black "
+      className="relative flex h-8 w-24 cursor-pointer items-center justify-center rounded-full  border-2 border-gray-600 bg-white p-[2px] dark:border-gray-400 dark:bg-black"
     >
       <input
         type="checkbox"
