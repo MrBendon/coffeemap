@@ -3,8 +3,12 @@ import { Marker, Popup, useMap } from "react-leaflet";
 import { IoLocation } from "react-icons/io5";
 import { MdAccessTime } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
+import L from "leaflet";
 import { CoffeeDataType } from "../../store/coffeeSlice";
 import FeatureInfo from "./FeatureInfo";
+import { useAppSelector } from "../../hooks/hooks";
+import LocationPNG from "../../assets/placeholder.png";
+import LocationYellowPNG from "../../assets/placeholder-yellow.png";
 
 interface PropsType {
   coffeeShop: CoffeeDataType;
@@ -17,6 +21,7 @@ function MapMarker({ activeCoffeeShopId, coffeeShop }: PropsType) {
   const map = useMap();
   const latitude = Number(coffeeShop.latitude);
   const longitude = Number(coffeeShop.longitude);
+  const isDarkMode = useAppSelector((state) => state.pagecontrol.isDarkMode);
   useEffect(() => {
     if (isActive && markerRef.current) {
       markerRef.current.openPopup();
@@ -27,6 +32,18 @@ function MapMarker({ activeCoffeeShopId, coffeeShop }: PropsType) {
     <Marker
       position={[latitude, longitude]}
       ref={isActive ? markerRef : null}
+      icon={L.divIcon({
+        // iconSize: "auto",
+        // iconUrl: isDarkMode ? LocationPNG : LocationRedPNG,
+        className: "closeDefaultString",
+        html: `<div class="${
+          isDarkMode ? "custom__marker--dark" : "custom__marker"
+        }"><img src=${
+          isDarkMode ? LocationPNG : LocationYellowPNG
+        } alt="icon" class="marker__icon" />
+                    <span>${coffeeShop.name}</span>
+                </div>`,
+      })}
       eventHandlers={{
         click: () => {
           map.setView([latitude, longitude], 17);

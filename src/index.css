@@ -64,3 +64,45 @@
     border-radius: 10px;
   }
 }
+
+@layer components {
+  .leaflet-div-icon {
+    background-color: transparent;
+  }
+
+  .custom__marker {
+    background-color: #218bc1be;
+    font-size: 12px;
+    padding: 4px 16px;
+    border-radius: 1rem;
+    width: max-content;
+    border: none;
+    outline: none;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+  }
+
+  .custom__marker--dark {
+    background-color: #111112c0;
+    font-size: 12px;
+    padding: 4px 16px;
+    border-radius: 1rem;
+    width: max-content;
+    border: none;
+    outline: none;
+    color: #0bd9ce;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+  }
+
+  .marker__icon {
+    height: 15px;
+  }
+}
