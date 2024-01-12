@@ -74,16 +74,16 @@ function Window({ title, subTitle, children }: WindowPropsType) {
           <div className="relative flex w-max max-w-80 flex-col rounded-xl  border border-gray-500 bg-gray-100 px-10 py-10 blur-none md:max-w-[40rem] dark:bg-gray-800 dark:text-white">
             <button
               type="button"
-              className=" absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-green-400"
+              className=" absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-full bg-green-400"
               onClick={closeModal}
             >
               X
             </button>
-            <div className=" absolute left-0 top-[21%] w-full border-b border-gray-400" />
+            <div className=" absolute left-0 top-[15%] w-full border-b border-gray-400" />
             <p className="z-10 mx-auto w-max bg-gray-100 px-8 pb-4 text-3xl font-bold dark:bg-gray-800">
               {title}
             </p>
-            <p className="flex flex-wrap pb-6 text-xl font-medium  italic text-gray-500 dark:text-gray-300">
+            <p className="flex flex-wrap pb-6 text-xl font-medium italic text-gray-500 dark:text-gray-300">
               {subTitle}
             </p>
             {children}

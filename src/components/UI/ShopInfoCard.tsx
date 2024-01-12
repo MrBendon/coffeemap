@@ -6,19 +6,20 @@ import { CoffeeDataType, setActiveCoffeeShop } from "../../store/coffeeSlice";
 import FeatureInfo from "./FeatureInfo";
 import { useAppDispatch } from "../../hooks/hooks";
 import Badge from "./Badge";
+import calcShopStars from "../../helper/calcShopStars";
 
 interface PropsType {
   coffeeShop: CoffeeDataType;
 }
 
-const calcItems: string[] = [
-  "wifi",
-  "seat",
-  "quiet",
-  "tasty",
-  "cheap",
-  "music",
-];
+// const calcItems: string[] = [
+//   "wifi",
+//   "seat",
+//   "quiet",
+//   "tasty",
+//   "cheap",
+//   "music",
+// ];
 
 function ShopInfoCard({ coffeeShop }: PropsType) {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -38,13 +39,15 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
     address,
   } = coffeeShop;
   const dispatch = useAppDispatch();
-  const calcItemsScore: number[] = calcItems.map(
-    (item) => Number(coffeeShop[item]) || 0,
-  );
-  const totalStar = (
-    calcItemsScore.reduce((acc: number, cur: number) => acc + cur, 0) /
-    calcItemsScore.length
-  ).toFixed(1);
+
+  const totalStar = calcShopStars(coffeeShop);
+  // const calcItemsScore: number[] = calcItems.map(
+  //   (item) => Number(coffeeShop[item]) || 0,
+  // );
+  // const totalStar = (
+  //   calcItemsScore.reduce((acc: number, cur: number) => acc + cur, 0) /
+  //   calcItemsScore.length
+  // ).toFixed(1);
   function handleOnClickCoffeeShopCard() {
     // dispatch(setActiveCoffeeShop({}));
     dispatch(setActiveCoffeeShop(coffeeShop));
@@ -57,13 +60,13 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
 
   return (
     <div
-      className="flex w-full flex-col gap-4 rounded-md bg-white p-2 shadow-[10px_10px_20px_0px_rgba(0,0,0,0.5)]  transition-all hover:cursor-pointer hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100"
+      className="flex w-full flex-col gap-4 rounded-md bg-white p-2 py-4 shadow-[10px_10px_20px_0px_rgba(0,0,0,0.5)]  transition-all hover:cursor-pointer hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100"
       onClick={() => handleOnClickCoffeeShopCard()}
       onKeyDown={() => handleOnClickCoffeeShopCard()}
       role="button"
       tabIndex={0}
     >
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-between gap-2">
         <h3 className="text-xl font-bold underline underline-offset-4">
           {name}
         </h3>
@@ -104,18 +107,6 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
         ) : (
           <p className="text-gray-400">未提供店家網址</p>
         )}
-        {/* <a
-          className={`${
-            url
-              ? "text-black underline underline-offset-4 dark:text-white"
-              : "text-gray-300"
-          } `}
-          href={url}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {url === "" ? "未提供店家網址" : "店家網址"}
-        </a> */}
       </div>
       <div className="border-b border-gray-400" />
       <div className="flex flex-col gap-2 text-sm xl:grid xl:grid-cols-2 xl:gap-2">

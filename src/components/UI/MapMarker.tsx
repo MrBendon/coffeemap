@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
 import { IoLocation } from "react-icons/io5";
 import { MdAccessTime } from "react-icons/md";
+import { CgWebsite } from "react-icons/cg";
 import { CoffeeDataType } from "../../store/coffeeSlice";
 import FeatureInfo from "./FeatureInfo";
 
@@ -11,15 +12,13 @@ interface PropsType {
 }
 
 function MapMarker({ activeCoffeeShopId, coffeeShop }: PropsType) {
-  const map = useMap();
   const isActive = activeCoffeeShopId === coffeeShop.id;
   const markerRef = useRef(null);
+  const map = useMap();
   const latitude = Number(coffeeShop.latitude);
   const longitude = Number(coffeeShop.longitude);
-
   useEffect(() => {
     if (isActive && markerRef.current) {
-      // console.log(markerRef.current);
       markerRef.current.openPopup();
     }
   }, [isActive]);
@@ -27,32 +26,49 @@ function MapMarker({ activeCoffeeShopId, coffeeShop }: PropsType) {
   return (
     <Marker
       position={[latitude, longitude]}
+      ref={isActive ? markerRef : null}
       eventHandlers={{
         click: () => {
-          map.setView([latitude, longitude], 18);
+          map.setView([latitude, longitude], 17);
         },
       }}
-      ref={isActive ? markerRef : null}
     >
       <Popup>
-        <div className="flex w-max flex-col gap-0">
-          <p className="text-xl font-bold underline underline-offset-2 ">
+        <div className="flex w-80 flex-col gap-4 pr-4">
+          <div className="text-wrap text-xl font-bold underline underline-offset-2 ">
             {coffeeShop.name}
-          </p>
-          <div className="grid grid-cols-2 gap-x-4 text-[12px]">
-            <address className="col-span-2 flex items-center gap-2">
+          </div>
+          <div className="flex flex-col gap-1 text-[12px]">
+            <address className="flex items-center gap-2">
               <IoLocation /> {coffeeShop.address}
             </address>
-            <p className="col-span-2 flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <MdAccessTime />
               {coffeeShop.open_time || "未提供營業時間"}
-            </p>
-            <FeatureInfo title="seat" stars={coffeeShop.seat} />
-            <FeatureInfo title="wifi" stars={coffeeShop.wifi} />
-            <FeatureInfo title="quiet" stars={coffeeShop.quiet} />
-            <FeatureInfo title="tasty" stars={coffeeShop.tasty} />
-            <FeatureInfo title="cheap" stars={coffeeShop.cheap} />
-            <FeatureInfo title="music" stars={coffeeShop.music} />
+            </div>
+            <div className="flex items-center gap-2">
+              <CgWebsite />
+              {coffeeShop.url !== "" ? (
+                <a
+                  className="text-black underline underline-offset-4 dark:text-white"
+                  href={coffeeShop.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  店家網址
+                </a>
+              ) : (
+                <div className="text-gray-400">未提供店家網址</div>
+              )}
+            </div>
+            <div className="grid w-full grid-cols-2 pt-2">
+              <FeatureInfo title="seat" stars={coffeeShop.seat} />
+              <FeatureInfo title="wifi" stars={coffeeShop.wifi} />
+              <FeatureInfo title="quiet" stars={coffeeShop.quiet} />
+              <FeatureInfo title="tasty" stars={coffeeShop.tasty} />
+              <FeatureInfo title="cheap" stars={coffeeShop.cheap} />
+              <FeatureInfo title="music" stars={coffeeShop.music} />
+            </div>
           </div>
         </div>
       </Popup>

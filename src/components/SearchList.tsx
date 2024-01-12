@@ -57,7 +57,7 @@ function SearchList() {
       : inViewPortDataAfterFilter;
 
   return (
-    <div className="flex h-full w-full flex-col justify-start gap-4 overflow-y-auto p-2 ">
+    <div className="my-scrollbar dark:my-scrollbar--dark flex h-full w-full flex-col justify-start gap-4 overflow-y-auto p-2 ">
       <div
         className={`flex flex-col gap-4 transition-all ${
           isOpenFilters ? "translate-y-0" : "-translate-y-[9rem]"

@@ -18,7 +18,8 @@ function ModalDescription() {
         <li>airbnb typescript-airbnb 等eslint設置</li>
       </ol>
       <p>
-        此外，本專案由於有CORS問題，先使用vite proxy代理，故僅能在demo時之用。
+        此外，本專案由於有CORS問題，先使用vite
+        proxy代理進行開發，故僅能在demo時之用。
       </p>
     </div>
   );

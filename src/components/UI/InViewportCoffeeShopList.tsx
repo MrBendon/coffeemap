@@ -17,13 +17,19 @@ function InViewportCoffeeShopList({
   const dataLength = inViewPortDataAfterFilter?.length || 0;
   return (
     <>
-      <div className="w-full rounded-lg bg-gray-200 px-4 text-sm text-gray-800 dark:bg-gray-800 dark:text-white">
+      <div className="w-full rounded-lg bg-gray-200 px-4 text-justify text-sm text-gray-800 dark:bg-gray-800 dark:text-white">
         該區域共有 &ensp;
         <em className="dark:text-primary text-lg font-bold text-black underline underline-offset-4">
           {dataLength}
         </em>{" "}
         &ensp; 筆店家資料
-        {dataLength >= 20 && <> ，列表僅顯示前{listMaxDisplayQuantity}筆</>}
+        {dataLength >= 20 && (
+          <>
+            {" "}
+            ，列表僅顯示前{listMaxDisplayQuantity}
+            筆，可透過縮小地圖或開啟篩選器來取得您感興趣的店家。
+          </>
+        )}
       </div>
       {showCardList?.map((coffeeShop) => (
         <ShopInfoCard coffeeShop={coffeeShop} key={coffeeShop.id} />

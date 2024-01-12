@@ -58,7 +58,7 @@ function SetViewOnClick({ animateRef }: SetViewPropsType) {
   return null;
 }
 
-function SetViewToTargetCoffeeShop({
+function SetViewToTargetCoffeeShopByClickCard({
   setActiveCoffeeShopId,
 }: SetViewToTargetCoffeeShopPropsType) {
   const map = useMap();
@@ -74,7 +74,7 @@ function SetViewToTargetCoffeeShop({
     ) {
       const latitude = Number(activeCoffeeShop.latitude);
       const longitude = Number(activeCoffeeShop.longitude);
-      map.setView([latitude, longitude], 18);
+      map.setView([latitude, longitude], 17);
       setActiveCoffeeShopId(activeCoffeeShop.id);
     }
   }, [activeCoffeeShop, setActiveCoffeeShopId, map]);
@@ -117,7 +117,6 @@ function RenderMarker({ coffeeData, activeCoffeeShopId }: RenderMarkPropsType) {
   if (activeFilter.length > 0 && coffeeData) {
     coffeeDataAfterFilter = filterData(coffeeData, activeFilter);
   }
-
   return (
     <MarkerClusterGroup chunkedLoading>
       {coffeeDataAfterFilter?.map((coffeeShop) => (
@@ -155,7 +154,7 @@ function Map() {
         />
         <SetViewportBounds coffeeData={coffeeData} />
         <SetViewOnClick animateRef={animateRef} />
-        <SetViewToTargetCoffeeShop
+        <SetViewToTargetCoffeeShopByClickCard
           setActiveCoffeeShopId={setActiveCoffeeShopId}
         />
       </MapContainer>
