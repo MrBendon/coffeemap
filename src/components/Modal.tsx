@@ -54,12 +54,11 @@ function Button() {
   const { openModal } = useModalContext();
   return (
     <button
-      className="dark:text-primary mx-4 w-max rounded-md p-2 text-3xl"
+      className="dark:text-primary ml-2 w-max rounded-md p-1 text-2xl md:text-3xl"
       type="button"
       onClick={openModal}
     >
-      <MdOutlineInfo />
-      {}
+      <MdOutlineInfo />{" "}
     </button>
   );
 }

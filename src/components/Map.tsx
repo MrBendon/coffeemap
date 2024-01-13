@@ -5,9 +5,12 @@ import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { LeafletMouseEvent } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import MapMarker from "./UI/MapMarker";
-import { useGetAllCoffeeQuery } from "../store/apis/apiSlice";
 import LoadingPage from "./UI/LoadingPage";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useGetCoffeeData,
+} from "../hooks/hooks";
 import {
   CoffeeDataType,
   setInViewportCoffeeShopData,
@@ -62,10 +65,11 @@ function SetViewToTargetCoffeeShopByClickCard({
   setActiveCoffeeShopId,
 }: SetViewToTargetCoffeeShopPropsType) {
   const map = useMap();
+
   const activeCoffeeShop = useAppSelector(
     (state) => state.coffee.activeCoffeeShop,
   );
-
+  console.log("setViewTarget");
   useEffect(() => {
     if (
       activeCoffeeShop?.id &&
@@ -131,7 +135,9 @@ function RenderMarker({ coffeeData, activeCoffeeShopId }: RenderMarkPropsType) {
 }
 
 function Map() {
-  const { data: coffeeData, isLoading } = useGetAllCoffeeQuery();
+  // const { data: coffeeData, isLoading } = useGetAllCoffeeQuery();
+  const { coffeeData, isLoading } = useGetCoffeeData();
+
   const [activeCoffeeShopId, setActiveCoffeeShopId] = useState("");
   const animateRef = useRef(true);
 

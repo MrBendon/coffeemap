@@ -12,17 +12,7 @@ interface PropsType {
   coffeeShop: CoffeeDataType;
 }
 
-// const calcItems: string[] = [
-//   "wifi",
-//   "seat",
-//   "quiet",
-//   "tasty",
-//   "cheap",
-//   "music",
-// ];
-
 function ShopInfoCard({ coffeeShop }: PropsType) {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   const {
     wifi,
     limited_time: limitedTime,
@@ -41,13 +31,7 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
   const dispatch = useAppDispatch();
 
   const totalStar = calcShopStars(coffeeShop);
-  // const calcItemsScore: number[] = calcItems.map(
-  //   (item) => Number(coffeeShop[item]) || 0,
-  // );
-  // const totalStar = (
-  //   calcItemsScore.reduce((acc: number, cur: number) => acc + cur, 0) /
-  //   calcItemsScore.length
-  // ).toFixed(1);
+
   function handleOnClickCoffeeShopCard() {
     // dispatch(setActiveCoffeeShop({}));
     dispatch(setActiveCoffeeShop(coffeeShop));
@@ -60,40 +44,44 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
 
   return (
     <div
-      className="flex w-full flex-col gap-4 rounded-md bg-white p-2 py-4 shadow-[10px_10px_20px_0px_rgba(0,0,0,0.5)]  transition-all hover:cursor-pointer hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100"
+      className="flex w-full flex-col gap-2 rounded-md bg-white p-2 py-4 shadow-[10px_10px_20px_0px_rgba(0,0,0,0.5)] transition-all  hover:cursor-pointer hover:bg-gray-200 md:gap-4 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-100 "
       onClick={() => handleOnClickCoffeeShopCard()}
       onKeyDown={() => handleOnClickCoffeeShopCard()}
       role="button"
       tabIndex={0}
     >
       <div className="flex w-full items-center justify-between gap-2">
-        <h3 className="text-xl font-bold underline underline-offset-4">
+        <h3 className="text-base font-bold underline underline-offset-4 md:text-xl">
           {name}
         </h3>
-        <div className="flex items-center justify-center gap-1 text-orange-500">
+        <div className="flex items-center justify-center gap-1 text-sm text-orange-500 md:text-base">
           {totalStar}
           <IoIosStar />
         </div>
       </div>
-      <div className="flex w-full flex-wrap gap-4 text-sm">
+      {/* 徽章 */}
+      <div className="flex w-full flex-wrap gap-4 text-xs md:text-sm">
         {hasWifi && <Badge badgeText="有Wifi" />}
         {provideSocket && <Badge badgeText="有插座" />}
         {limitTime && <Badge badgeText="無限時" />}
         {provideStandingDesk && <Badge badgeText="有站位" />}
       </div>
-      <div className="flex items-center justify-start gap-2">
+      {/* 地址 */}
+      <div className="flex items-center justify-start gap-2 text-sm md:text-base">
         <IoLocation />
         <address>{address}</address>
       </div>
+      {/* 營業日 */}
       <div
-        className={`flex items-center justify-start gap-2 ${
+        className={`flex items-center justify-start gap-2 text-sm md:text-base ${
           openTime || "text-gray-400"
         }`}
       >
         <MdAccessTime />
         <p>{openTime || "未提供營業時間"}</p>
       </div>
-      <div className=" flex items-center justify-start gap-2">
+      {/* 店家網址 */}
+      <div className=" flex items-center justify-start gap-2 text-sm md:text-base">
         <CgWebsite />
         {url ? (
           <a
@@ -109,7 +97,7 @@ function ShopInfoCard({ coffeeShop }: PropsType) {
         )}
       </div>
       <div className="border-b border-gray-400" />
-      <div className="flex flex-col gap-2 text-sm xl:grid xl:grid-cols-2 xl:gap-2">
+      <div className="flex flex-col gap-2 text-sm md:block xl:grid xl:grid-cols-2 xl:gap-2">
         <FeatureInfo title="seat" stars={seat} />
         <FeatureInfo title="wifi" stars={wifi} />
         <FeatureInfo title="quiet" stars={quiet} />

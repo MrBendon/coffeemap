@@ -26,20 +26,20 @@ function Filters() {
 
         <button
           type="button"
-          className="col-span-2 h-8 cursor-pointer rounded-full border border-gray-500 transition-all hover:bg-slate-400 hover:text-white dark:text-white dark:hover:bg-gray-600"
+          className="col-span-2 h-6 cursor-pointer rounded-full border border-gray-500 text-sm transition-all hover:bg-slate-400 hover:text-white md:h-8 md:text-base dark:text-white dark:hover:bg-gray-600"
           onClick={handleOnClickResetFilters}
         >
           清除篩選器
         </button>
         <button
           type="button"
-          className="absolute left-4 top-full w-max cursor-pointer rounded-b-xl bg-gray-200 p-2 transition-all hover:text-blue-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:text-blue-300"
+          className="absolute left-4 top-full w-max cursor-pointer rounded-b-xl bg-gray-200 p-2 text-sm transition-all hover:text-blue-700 md:text-base dark:bg-gray-800 dark:text-gray-200 dark:hover:text-blue-300"
           onClick={handleOnClick}
         >
           {isOpenFiltersBlock ? "闔上篩選器" : "開啟篩選器"}
         </button>
       </div>
-      <div className="flex w-full items-center justify-end pt-3 dark:text-white ">
+      <div className="flex w-full items-center justify-end pt-2 text-sm md:pt-3 md:text-base dark:text-white">
         篩選器作用中：
         <p
           className={`h-4 w-4 rounded-full ${

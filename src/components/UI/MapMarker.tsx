@@ -17,11 +17,12 @@ interface PropsType {
 
 function MapMarker({ activeCoffeeShopId, coffeeShop }: PropsType) {
   const isActive = activeCoffeeShopId === coffeeShop.id;
-  const markerRef = useRef(null);
+  const markerRef = useRef<L.Marker>(null);
   const map = useMap();
   const latitude = Number(coffeeShop.latitude);
   const longitude = Number(coffeeShop.longitude);
   const isDarkMode = useAppSelector((state) => state.pagecontrol.isDarkMode);
+
   useEffect(() => {
     if (isActive && markerRef.current) {
       markerRef.current.openPopup();
@@ -31,7 +32,7 @@ function MapMarker({ activeCoffeeShopId, coffeeShop }: PropsType) {
   return (
     <Marker
       position={[latitude, longitude]}
-      ref={isActive ? markerRef : null}
+      ref={markerRef}
       icon={L.divIcon({
         // iconSize: "auto",
         // iconUrl: isDarkMode ? LocationPNG : LocationRedPNG,
@@ -51,7 +52,7 @@ function MapMarker({ activeCoffeeShopId, coffeeShop }: PropsType) {
       }}
     >
       <Popup>
-        <div className="flex w-80 flex-col gap-4 pr-4">
+        <div className="flex w-[330px] flex-col gap-4 pr-4">
           <div className="text-wrap text-xl font-bold underline underline-offset-2 ">
             {coffeeShop.name}
           </div>

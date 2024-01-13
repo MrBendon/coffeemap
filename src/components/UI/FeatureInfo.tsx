@@ -33,10 +33,10 @@ interface PropsType {
 
 function FeatureInfo({ title, stars }: PropsType) {
   return (
-    <div className="flex items-center justify-start gap-2 p-0">
+    <div className="flex items-center justify-start gap-1 p-0">
       <div className="flex items-center justify-start gap-2">
         {icon[title]}
-        <div className="w-14">{titleText[title]}</div>
+        <div className="w-16">{titleText[title]}</div>
       </div>
       <div className="flex items-center justify-start">
         {stars

@@ -7,7 +7,7 @@ export interface CoffeeDataType {
   city: string | undefined;
   id: string | undefined;
   latitude: string | undefined;
-  limited_time: "yes" | "maybe" | "no" | undefined;
+  limited_time: "yes" | "maybe" | "no" | "" | undefined;
   longitude: string | undefined;
   mrt: string | undefined;
   music: number | undefined;
@@ -15,8 +15,8 @@ export interface CoffeeDataType {
   open_time: string | undefined;
   quiet: number | undefined;
   seat: number | undefined;
-  socket: "yes" | "maybe" | "no" | undefined;
-  standing_desk: "yes" | "no" | undefined;
+  socket: "yes" | "maybe" | "no" | "" | undefined;
+  standing_desk: "yes" | "no" | "" | undefined;
   tasty: number | undefined;
   url: string | undefined;
   wifi: number | undefined;

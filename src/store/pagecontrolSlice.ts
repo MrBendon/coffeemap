@@ -5,6 +5,8 @@ interface PagecontrolType {
   isDarkMode: boolean;
   isOpenFiltersBlock: boolean;
   listMaxDisplayQuantity: number;
+  mobileIsOpenSearch: boolean;
+  mobileIsOpenSearchList: boolean;
 }
 
 const initialState: PagecontrolType = {
@@ -12,6 +14,8 @@ const initialState: PagecontrolType = {
   isDarkMode: false,
   isOpenFiltersBlock: false,
   listMaxDisplayQuantity: 30,
+  mobileIsOpenSearch: false,
+  mobileIsOpenSearchList: false,
 };
 
 export const pagecontrolSlice = createSlice({
@@ -39,6 +43,14 @@ export const pagecontrolSlice = createSlice({
     toggleIsOpenFiltersBlock: (state) => {
       state.isOpenFiltersBlock = !state.isOpenFiltersBlock;
     },
+    toggleMobileIsOpenSearch: (state, action) => ({
+      ...state,
+      mobileIsOpenSearch: action.payload,
+    }),
+    toggleMobileIsOpenSearchList: (state, action) => ({
+      ...state,
+      mobileIsOpenSearchList: action.payload,
+    }),
   },
 });
 
@@ -47,6 +59,8 @@ export const {
   toggleIsDarkMode,
   darkModeInit,
   toggleIsOpenFiltersBlock,
+  toggleMobileIsOpenSearch,
+  toggleMobileIsOpenSearchList,
 } = pagecontrolSlice.actions;
 
 export default pagecontrolSlice.reducer;

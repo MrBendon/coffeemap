@@ -1,7 +1,6 @@
-import { useMemo } from "react";
-import { useAppSelector } from "../hooks/hooks";
+import { memo, useMemo } from "react";
+import { useAppSelector, useGetCoffeeData } from "../hooks/hooks";
 import ShopInfoCard from "./UI/ShopInfoCard";
-import { useGetAllCoffeeQuery } from "../store/apis/apiSlice";
 import { CoffeeDataType } from "../store/coffeeSlice";
 import Filters from "./Filters";
 import filterData from "../helper/filterData";
@@ -10,8 +9,10 @@ import SearchNoResult from "./UI/SearchNoResult";
 import SearchResultLength from "./UI/SearchResultLength";
 import InViewportCoffeeShopList from "./UI/InViewportCoffeeShopList";
 
-function SearchList() {
-  const { data: allCoffeeData } = useGetAllCoffeeQuery();
+const SearchList = memo(() => {
+  // const { data: allCoffeeData } = useGetAllCoffeeQuery();
+  const { coffeeData: allCoffeeData } = useGetCoffeeData();
+
   const {
     searchKey,
     inViewportCoffeeShopData,
@@ -57,10 +58,12 @@ function SearchList() {
       : inViewPortDataAfterFilter;
 
   return (
-    <div className="my-scrollbar dark:my-scrollbar--dark flex h-full w-full flex-col justify-start gap-4 overflow-y-auto p-2 ">
+    <div className="my-scrollbar dark:my-scrollbar--dark flex h-full w-full flex-col justify-start gap-4 overflow-y-auto p-2">
       <div
         className={`flex flex-col gap-4 transition-all ${
-          isOpenFilters ? "translate-y-0" : "-translate-y-[9rem]"
+          isOpenFilters
+            ? "translate-y-0"
+            : "-translate-y-[7.5rem] md:-translate-y-[9rem]"
         }`}
       >
         <Filters />
@@ -83,6 +86,6 @@ function SearchList() {
       </div>
     </div>
   );
-}
+});
 
 export default SearchList;
