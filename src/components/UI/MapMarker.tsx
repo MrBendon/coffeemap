@@ -7,8 +7,8 @@ import L from "leaflet";
 import { CoffeeDataType } from "../../store/coffeeSlice";
 import FeatureInfo from "./FeatureInfo";
 import { useAppSelector } from "../../hooks/hooks";
-import LocationPNG from "../../assets/placeholder.png";
-import LocationYellowPNG from "../../assets/placeholder-yellow.png";
+import LocationWebp from "../../assets/AnyConv.com__placeholder.webp";
+import LocationYellowWebp from "../../assets/AnyConv.com__placeholder-yellow.webp";
 
 interface PropsType {
   coffeeShop: CoffeeDataType;
@@ -40,7 +40,7 @@ function MapMarker({ activeCoffeeShopId, coffeeShop }: PropsType) {
         html: `<div class="${
           isDarkMode ? "custom__marker--dark" : "custom__marker"
         }"><img src=${
-          isDarkMode ? LocationPNG : LocationYellowPNG
+          isDarkMode ? LocationWebp : LocationYellowWebp
         } alt="icon" class="marker__icon" />
                     <span>${coffeeShop.name}</span>
                 </div>`,

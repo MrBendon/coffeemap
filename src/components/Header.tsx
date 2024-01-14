@@ -10,7 +10,7 @@ import {
 import ToggleDarkButton from "./UI/ToggleDarkButton";
 import Modal from "./Modal";
 import Search from "./Search";
-import CoffeePNG from "../assets/coffee.png";
+import CoffeeWebp from "../assets/AnyConv.com__coffee.webp";
 
 function ModalDescription() {
   return (
@@ -22,6 +22,7 @@ function ModalDescription() {
         <li>RTK Query</li>
         <li>React leaflet</li>
         <li>airbnb typescript-airbnb 等eslint設置</li>
+        <li>使用Tailwind CSS</li>
       </ol>
       <p>
         此外，本專案由於有CORS問題，先使用vite
@@ -55,7 +56,7 @@ function Header() {
         <h2 className=" mr-auto flex items-center gap-2 text-xl font-bold md:text-2xl dark:text-white">
           <img
             className="aspect-square w-6 -translate-y-1 md:w-8"
-            src={CoffeePNG}
+            src={CoffeeWebp}
             alt="coffee icon"
           />
           咖啡探索地圖

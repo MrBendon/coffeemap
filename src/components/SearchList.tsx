@@ -1,6 +1,5 @@
 import { memo, useMemo } from "react";
 import { useAppSelector, useGetCoffeeData } from "../hooks/hooks";
-import ShopInfoCard from "./UI/ShopInfoCard";
 import { CoffeeDataType } from "../store/coffeeSlice";
 import Filters from "./Filters";
 import filterData from "../helper/filterData";
@@ -8,6 +7,7 @@ import InitSearchListBlock from "./UI/InitSearchListBlock";
 import SearchNoResult from "./UI/SearchNoResult";
 import SearchResultLength from "./UI/SearchResultLength";
 import InViewportCoffeeShopList from "./UI/InViewportCoffeeShopList";
+import ShopInfoCard from "./UI/ShopInfoCard";
 
 const SearchList = memo(() => {
   // const { data: allCoffeeData } = useGetAllCoffeeQuery();
@@ -36,6 +36,7 @@ const SearchList = memo(() => {
   }
 
   const memoResults = useMemo(() => searchResults, [searchResults]);
+
   const hasData =
     isSearchMode === true &&
     memoResults !== undefined &&

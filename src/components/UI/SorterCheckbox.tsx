@@ -14,6 +14,7 @@ function SorterCheckbox({ name, labelText }: PropsType) {
   );
   //   console.log(name, ":", isChecked);
   function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
+    e.stopPropagation();
     const filterName = e.currentTarget.name;
     dispatch(setFilters(filterName));
   }

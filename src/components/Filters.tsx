@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { resetFilters } from "../store/coffeeSlice";
 import SorterCheckbox from "./UI/SorterCheckbox";
@@ -10,10 +11,12 @@ function Filters() {
   );
   const activeFilters = useAppSelector((state) => state.coffee.activeFilters);
   const isFilterWorking = activeFilters.length > 0;
-  function handleOnClickResetFilters() {
+  function handleOnClickResetFilters(e: MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
     dispatch(resetFilters());
   }
-  function handleOnClick() {
+  function handleOnClick(e: MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
     dispatch(toggleIsOpenFiltersBlock());
   }
   return (
