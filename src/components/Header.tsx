@@ -19,10 +19,11 @@ function ModalDescription() {
       <ol className="list-decimal pl-6">
         <li>React</li>
         <li>TypeScript</li>
-        <li>RTK Query</li>
+        <li>Redux Toolkit && RTK Query</li>
         <li>React leaflet</li>
         <li>airbnb typescript-airbnb 等eslint設置</li>
         <li>使用Tailwind CSS</li>
+        <li>無限滾動優化長列表問題</li>
       </ol>
       <p>
         此外，本專案由於有CORS問題，先使用vite
@@ -64,7 +65,7 @@ function Header() {
         <div className="mx-auto hidden md:block">
           <Search />
         </div>
-        <div className="dark:text-primary flex h-full items-center p-2 text-2xl md:hidden">
+        <div className="flex h-full items-center p-2 text-2xl md:hidden dark:text-primary">
           <button type="button" onClick={toggleOpenSearchBar}>
             <MdOutlineScreenSearchDesktop />{" "}
           </button>
@@ -86,7 +87,7 @@ function Header() {
         <Search />
         <button
           type="button"
-          className="dark:text-primary z-[9999]  ml-auto flex items-center justify-center text-xl"
+          className="z-[9999] ml-auto  flex items-center justify-center text-xl dark:text-primary"
           onClick={toggleMobileIsOpenList}
         >
           <VscListSelection />{" "}

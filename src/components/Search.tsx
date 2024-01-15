@@ -3,6 +3,7 @@ import { FormEvent, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { useAppDispatch } from "../hooks/hooks";
 import { setSearchKey } from "../store/coffeeSlice";
+import { changedDisplayQuantityPages } from "../store/pagecontrolSlice";
 
 function Search() {
   const dispatch = useAppDispatch();
@@ -11,6 +12,7 @@ function Search() {
     e.preventDefault();
     // console.log("搜尋關鍵字：", searchValue);
     dispatch(setSearchKey(searchValue));
+    dispatch(changedDisplayQuantityPages(1));
   }
 
   function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {

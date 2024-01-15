@@ -5,6 +5,7 @@ interface PagecontrolType {
   isDarkMode: boolean;
   isOpenFiltersBlock: boolean;
   listMaxDisplayQuantity: number;
+  displayQuantityPages: number;
   mobileIsOpenSearch: boolean;
   mobileIsOpenSearchList: boolean;
 }
@@ -13,7 +14,8 @@ const initialState: PagecontrolType = {
   isOpenMap: true,
   isDarkMode: false,
   isOpenFiltersBlock: false,
-  listMaxDisplayQuantity: 30,
+  listMaxDisplayQuantity: 10,
+  displayQuantityPages: 1,
   mobileIsOpenSearch: false,
   mobileIsOpenSearchList: false,
 };
@@ -29,6 +31,10 @@ export const pagecontrolSlice = createSlice({
         document.documentElement.classList.remove("dark");
       }
     },
+    changedDisplayQuantityPages: (state, action) => ({
+      ...state,
+      displayQuantityPages: action.payload,
+    }),
     toggleIsOpenMap: (state) => {
       state.isOpenMap = !state.isOpenMap;
     },
@@ -58,6 +64,7 @@ export const {
   toggleIsOpenMap,
   toggleIsDarkMode,
   darkModeInit,
+  changedDisplayQuantityPages,
   toggleIsOpenFiltersBlock,
   toggleMobileIsOpenSearch,
   toggleMobileIsOpenSearchList,

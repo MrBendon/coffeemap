@@ -1,5 +1,9 @@
-import { memo, useMemo } from "react";
-import { useAppSelector, useGetCoffeeData } from "../hooks/hooks";
+import { WheelEvent, memo, useMemo, useRef } from "react";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useGetCoffeeData,
+} from "../hooks/hooks";
 import { CoffeeDataType } from "../store/coffeeSlice";
 import Filters from "./Filters";
 import filterData from "../helper/filterData";
@@ -8,34 +12,51 @@ import SearchNoResult from "./UI/SearchNoResult";
 import SearchResultLength from "./UI/SearchResultLength";
 import InViewportCoffeeShopList from "./UI/InViewportCoffeeShopList";
 import ShopInfoCard from "./UI/ShopInfoCard";
+import { changedDisplayQuantityPages } from "../store/pagecontrolSlice";
 
 const SearchList = memo(() => {
   // const { data: allCoffeeData } = useGetAllCoffeeQuery();
-  const { coffeeData: allCoffeeData } = useGetCoffeeData();
-
+  const dispatch = useAppDispatch();
+  const listRef = useRef<HTMLDivElement>(null);
   const {
     searchKey,
     inViewportCoffeeShopData,
     isSearchMode,
     activeFilters: filters,
   } = useAppSelector((state) => state.coffee);
-  const { isOpenFiltersBlock: isOpenFilters, listMaxDisplayQuantity } =
-    useAppSelector((state) => state.pagecontrol);
+  const {
+    isOpenFiltersBlock: isOpenFilters,
+    listMaxDisplayQuantity,
+    displayQuantityPages,
+  } = useAppSelector((state) => state.pagecontrol);
   // 字串搜索模式
-  let searchResults: CoffeeDataType[] | undefined;
+  const { coffeeData: allCoffeeData } = useGetCoffeeData();
+  let showResults: CoffeeDataType[] | undefined;
 
-  if (searchKey) {
-    searchResults = allCoffeeData?.filter(
-      (coffee) =>
-        coffee.name?.includes(searchKey) || coffee.address?.includes(searchKey),
+  const memoResults = useMemo(() => {
+    let searchResults: CoffeeDataType[] | undefined;
+    if (searchKey) {
+      searchResults = allCoffeeData?.filter(
+        (coffee) =>
+          coffee.name?.includes(searchKey) ||
+          coffee.address?.includes(searchKey),
+      );
+    }
+
+    if (filters.length > 0 && searchResults) {
+      searchResults = filterData(searchResults, filters);
+    }
+    return searchResults;
+  }, [allCoffeeData, searchKey, filters]);
+
+  if (memoResults && memoResults.length > listMaxDisplayQuantity) {
+    showResults = memoResults?.slice(
+      0,
+      listMaxDisplayQuantity * displayQuantityPages,
     );
+  } else {
+    showResults = memoResults;
   }
-
-  if (filters.length > 0 && searchResults) {
-    searchResults = filterData(searchResults, filters);
-  }
-
-  const memoResults = useMemo(() => searchResults, [searchResults]);
 
   const hasData =
     isSearchMode === true &&
@@ -55,8 +76,26 @@ const SearchList = memo(() => {
   const showCardList =
     inViewPortDataAfterFilter &&
     inViewPortDataAfterFilter.length > listMaxDisplayQuantity
-      ? inViewPortDataAfterFilter?.slice(0, listMaxDisplayQuantity)
+      ? inViewPortDataAfterFilter?.slice(
+          0,
+          listMaxDisplayQuantity * displayQuantityPages,
+        )
       : inViewPortDataAfterFilter;
+
+  function handleScroll(e: WheelEvent<HTMLDivElement>) {
+    const divRect = e.currentTarget.getBoundingClientRect();
+    const divHeight = e.currentTarget.getBoundingClientRect().height;
+    const scrollPositionInDiv = Math.abs(divRect.top);
+    if (divHeight - scrollPositionInDiv <= 800) {
+      dispatch(changedDisplayQuantityPages(displayQuantityPages + 1));
+    }
+  }
+
+  if (displayQuantityPages === 1 && listRef.current) {
+    const target = listRef.current;
+    target.scrollTo(0, 0);
+    console.log(target);
+  }
 
   return (
     <div className="my-scrollbar dark:my-scrollbar--dark flex h-full w-full flex-col justify-start gap-4 overflow-y-auto p-2">
@@ -66,13 +105,15 @@ const SearchList = memo(() => {
             ? "translate-y-0"
             : "-translate-y-[7.5rem] md:-translate-y-[9rem]"
         }`}
+        onWheel={handleScroll}
+        ref={listRef}
       >
         <Filters />
         {isInit && <InitSearchListBlock />}
         {/* 字串搜索模式 */}
         {hasData && <SearchResultLength searchResults={memoResults} />}
         {hasData &&
-          memoResults?.map((coffeeShop) => (
+          showResults?.map((coffeeShop) => (
             <ShopInfoCard coffeeShop={coffeeShop} key={coffeeShop.id} />
           ))}
 

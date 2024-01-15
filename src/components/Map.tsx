@@ -2,7 +2,7 @@
 import { MapContainer, TileLayer, useMap, useMapEvent } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
-import { LeafletMouseEvent } from "leaflet";
+import { LeafletMouseEvent, LocationEvent } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import MapMarker from "./UI/MapMarker";
 import LoadingPage from "./UI/LoadingPage";
@@ -18,6 +18,7 @@ import {
   setUserPostion,
 } from "../store/coffeeSlice";
 import filterData from "../helper/filterData";
+import { changedDisplayQuantityPages } from "../store/pagecontrolSlice";
 
 interface SetViewPropsType {
   animateRef: MutableRefObject<boolean>;
@@ -36,12 +37,15 @@ function InitUserLocation() {
   const map = useMap();
   const dispatch = useAppDispatch();
   useEffect(() => {
+    const handleLocationFound = (e: LocationEvent) => {
+      const userPosition = { lat: e.latlng.lat, lng: e.latlng.lng };
+      dispatch(setUserPostion(userPosition));
+    };
     map.locate({ setView: true });
-    map.on("locationfound", (e) => {
-      console.log(e.latlng);
-      const usePosition = { lat: e.latlng.lat, lng: e.latlng.lng };
-      dispatch(setUserPostion(usePosition));
-    });
+    map.on("locationfound", handleLocationFound);
+    return () => {
+      map.off("locationfound", handleLocationFound);
+    };
   }, [map, dispatch]);
   return null;
 }
@@ -54,6 +58,7 @@ function SetViewOnClick({ animateRef }: SetViewPropsType) {
       animate: animateRef.current || false,
     });
     if (isSearchMode) {
+      dispatch(changedDisplayQuantityPages(1));
       dispatch(setSearchMode(false));
     }
   });
@@ -69,18 +74,23 @@ function SetViewToTargetCoffeeShopByClickCard({
   const activeCoffeeShop = useAppSelector(
     (state) => state.coffee.activeCoffeeShop,
   );
-  console.log("setViewTarget");
   useEffect(() => {
-    if (
-      activeCoffeeShop?.id &&
-      activeCoffeeShop?.latitude &&
-      activeCoffeeShop?.longitude
-    ) {
-      const latitude = Number(activeCoffeeShop.latitude);
-      const longitude = Number(activeCoffeeShop.longitude);
-      map.setView([latitude, longitude], 17);
-      setActiveCoffeeShopId(activeCoffeeShop.id);
+    function setViewToCoffeeShop() {
+      if (
+        activeCoffeeShop?.id &&
+        activeCoffeeShop?.latitude &&
+        activeCoffeeShop?.longitude
+      ) {
+        const latitude = Number(activeCoffeeShop.latitude);
+        const longitude = Number(activeCoffeeShop.longitude);
+        map.setView([latitude, longitude], 17);
+        setActiveCoffeeShopId(activeCoffeeShop.id);
+      }
     }
+    setViewToCoffeeShop();
+    return () => {
+      map.off("click", setViewToCoffeeShop);
+    };
   }, [activeCoffeeShop, setActiveCoffeeShopId, map]);
 
   // eslint-disable-next-line consistent-return
