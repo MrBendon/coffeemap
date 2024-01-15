@@ -94,7 +94,6 @@ const SearchList = memo(() => {
   if (displayQuantityPages === 1 && listRef.current) {
     const target = listRef.current;
     target.scrollTo(0, 0);
-    console.log(target);
   }
 
   return (
