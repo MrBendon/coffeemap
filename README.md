@@ -1,4 +1,3 @@
-Change 
 
 # React + TypeScript + Vite
 
