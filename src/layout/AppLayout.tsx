@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 
 interface PropsType {
   children: ReactNode;
-  hi?:string;
 }
 
 function AppLayout({ children }: PropsType) {
